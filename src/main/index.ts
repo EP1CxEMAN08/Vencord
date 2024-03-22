@@ -19,8 +19,7 @@
 import { app, protocol, session } from "electron";
 import { join } from "path";
 
-import { ensureSafePath } from "./ipcMain";
-import { RendererSettings } from "./settings";
+import { ensureSafePath, getSettings } from "./ipcMain";
 import { IS_VANILLA, THEMES_DIR } from "./utils/constants";
 import { installExt } from "./utils/extensions";
 
@@ -56,7 +55,7 @@ if (IS_VESKTOP || !IS_VANILLA) {
         });
 
         try {
-            if (RendererSettings.store.enableReactDevtools)
+            if (getSettings().enableReactDevtools)
                 installExt("fmkadmapgofadopljbjfkapdkoienihi")
                     .then(() => console.info("[Vencord] Installed React Developer Tools"))
                     .catch(err => console.error("[Vencord] Failed to install React Developer Tools", err));

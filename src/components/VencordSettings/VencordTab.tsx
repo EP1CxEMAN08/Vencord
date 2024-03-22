@@ -50,6 +50,14 @@ function VencordSettings() {
     const isMac = navigator.platform.toLowerCase().startsWith("mac");
     const needsVibrancySettings = IS_DISCORD_DESKTOP && isMac;
 
+    // One-time migration of the old setting to the new one if necessary.
+    React.useEffect(() => {
+        if (settings.macosTranslucency === true && !settings.macosVibrancyStyle) {
+            settings.macosVibrancyStyle = "sidebar";
+            settings.macosTranslucency = undefined;
+        }
+    }, []);
+
     const Switches: Array<false | {
         key: KeysOfType<typeof settings, boolean>;
         title: string;
@@ -156,7 +164,7 @@ function VencordSettings() {
                     options={[
                         // Sorted from most opaque to most transparent
                         {
-                            label: "No vibrancy", value: undefined
+                            label: "No vibrancy", default: !settings.macosTranslucency, value: undefined
                         },
                         {
                             label: "Under Page (window tinting)",
@@ -183,8 +191,9 @@ function VencordSettings() {
                             value: "header"
                         },
                         {
-                            label: "Sidebar",
-                            value: "sidebar"
+                            label: "Sidebar (old value for transparent windows)",
+                            value: "sidebar",
+                            default: settings.macosTranslucency
                         },
                         {
                             label: "Tooltip",

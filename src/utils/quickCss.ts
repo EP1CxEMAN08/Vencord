@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Settings, SettingsStore } from "@api/Settings";
+import { addSettingsListener, Settings } from "@api/Settings";
 
 
 let style: HTMLStyleElement;
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", () => {
     initThemes();
 
     toggle(Settings.useQuickCss);
-    SettingsStore.addChangeListener("useQuickCss", toggle);
+    addSettingsListener("useQuickCss", toggle);
 
-    SettingsStore.addChangeListener("themeLinks", initThemes);
-    SettingsStore.addChangeListener("enabledThemes", initThemes);
+    addSettingsListener("themeLinks", initThemes);
+    addSettingsListener("enabledThemes", initThemes);
 
     if (!IS_WEB)
         VencordNative.quickCss.addThemeChangeListener(initThemes);

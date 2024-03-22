@@ -255,7 +255,7 @@ function MessageEmbedAccessory({ message }: { message: Message; }) {
                 delete msg.embeds;
                 delete msg.interaction;
 
-                messageFetchQueue.unshift(() => fetchMessage(channelID, messageID)
+                messageFetchQueue.push(() => fetchMessage(channelID, messageID)
                     .then(m => m && FluxDispatcher.dispatch({
                         type: "MESSAGE_UPDATE",
                         message: msg

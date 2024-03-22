@@ -16,12 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { onceDefined } from "@shared/onceDefined";
+import { onceDefined } from "@utils/onceDefined";
 import electron, { app, BrowserWindowConstructorOptions, Menu } from "electron";
 import { dirname, join } from "path";
 
-import { initIpc } from "./ipcMain";
-import { RendererSettings } from "./settings";
+import { getSettings, initIpc } from "./ipcMain";
 import { IS_VANILLA } from "./utils/constants";
 
 console.log("[Vencord] Starting up...");
@@ -42,7 +41,8 @@ require.main!.filename = join(asarPath, discordPkg.main);
 app.setAppPath(asarPath);
 
 if (!IS_VANILLA) {
-    const settings = RendererSettings.store;
+    const settings = getSettings();
+
     // Repatch after host updates on Windows
     if (process.platform === "win32") {
         require("./patchWin32Updater");
@@ -84,11 +84,13 @@ if (!IS_VANILLA) {
                     options.backgroundColor = "#00000000";
                 }
 
-                const needsVibrancy = process.platform === "darwin" && settings.macosVibrancyStyle;
+                const needsVibrancy = process.platform === "darwin" || (settings.macosVibrancyStyle || settings.macosTranslucency);
 
                 if (needsVibrancy) {
                     options.backgroundColor = "#00000000";
-                    if (settings.macosVibrancyStyle) {
+                    if (settings.macosTranslucency) {
+                        options.vibrancy = "sidebar";
+                    } else if (settings.macosVibrancyStyle) {
                         options.vibrancy = settings.macosVibrancyStyle;
                     }
                 }

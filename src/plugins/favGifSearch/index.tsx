@@ -200,14 +200,7 @@ function SearchBar({ instance, SearchBarComponent }: { instance: Instance; Searc
 
 
 export function getTargetString(urlStr: string) {
-    let url: URL;
-    try {
-        url = new URL(urlStr);
-    } catch (err) {
-        // Can't resolve URL, return as-is
-        return urlStr;
-    }
-
+    const url = new URL(urlStr);
     switch (settings.store.searchOption) {
         case "url":
             return url.href;

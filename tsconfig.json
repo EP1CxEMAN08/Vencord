@@ -11,7 +11,7 @@
             "esnext.asynciterable",
             "esnext.symbol"
         ],
-        "module": "esnext",
+        "module": "commonjs",
         "moduleResolution": "node",
         "strict": true,
         "noImplicitAny": false,
@@ -20,15 +20,13 @@
 
         "baseUrl": "./src/",
         "paths": {
-            "@main/*": ["./main/*"],
             "@api/*": ["./api/*"],
             "@components/*": ["./components/*"],
             "@utils/*": ["./utils/*"],
-            "@shared/*": ["./shared/*"],
             "@webpack/types": ["./webpack/common/types"],
             "@webpack/common": ["./webpack/common"],
             "@webpack": ["./webpack/webpack"]
         }
     },
-    "include": ["src/**/*", "browser/**/*", "scripts/**/*"]
+    "include": ["src/**/*"]
 }
